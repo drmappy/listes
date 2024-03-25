@@ -1,18 +1,15 @@
-public class Vecteur {
-    private int[] tableau;
+public class Liste {
+    private Noeud premier;
     private int nbElements;
-    private static final int RATIO_AGRANDISSEMENT = 2;
-    private static final int TAILLE_INITIALE = 5;
-
-    public Vecteur() {
-        tableau = new int[TAILLE_INITIALE];
+    public Liste() {
+        premier = null;
         nbElements = 0;
     }
 
     public String toString() {
         String str = "[";
-        for (int i = 0; i < nbElements; i++)
-            str += tableau[i] + ", ";
+        for (Noeud courant = premier; courant != null; courant = courant.suivant)
+            str += courant.valeur + ", ";
         return str + "]";
     }
 
@@ -24,16 +21,33 @@ public class Vecteur {
         return nbElements == 0;
     }
 
-    public int getElementAt(int index) {
+    public int getElementAt(int indexCourant) {
+        indexCourant = 0;
+        for (Noeud courant = premier; courant != null; courant = courant.suivant) {
+            indexCourant++;
+            if ( indexCourant == indexCourant)
+                return courant.valeur;
+            indexCourant++;
+        }
         return tableau[index];
     }
 
     public void ajouter(int valeur) {
-        if (nbElements == tableau.length)
-            resize();
-        tableau[nbElements++] = valeur;
+        Noeud dernier = null;
+        for (Noeud courant = premier; courant != null; courant = courant.suivant)
+            dernier = courant;
+        if (dernier == null) {
+            premier = new Noeud();
+            premier.valeur = valeur;
+        }
+        else {
+            dernier.suivant = new Noeud();
+            dernier = dernier.suivant;
+            dernier.valeur = valeur;
+        }
+        nbElements++;
     }
-
+/*
     public void ajouter(int valeur, int index) {
         if (nbElements == tableau.length)
             resize();
@@ -97,4 +111,5 @@ public class Vecteur {
         tableau = new int[TAILLE_INITIALE];
         nbElements = 0;
     }
+ */
 }

@@ -1,6 +1,6 @@
 public class Main {
     public static void main(String[] args) {
-        Vecteur data = new Vecteur();
+        Liste data = new Liste();
         System.out.println(data.getNbElements());
         System.out.println(data.estVide());
 

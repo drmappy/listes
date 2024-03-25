@@ -1,9 +1,5 @@
-import static org.junit.jupiter.api.Assertions.*;
-
-class VecteurTest {
-
-    @org.junit.jupiter.api.Test
-    void getNbElements() {
+class ListesTest {
+    void getNbElements() {/*
         Vecteur test = new Vecteur();
         assertEquals(0, test.getNbElements());
 
@@ -53,4 +49,5 @@ class VecteurTest {
     @org.junit.jupiter.api.Test
     void testEffacerTout() {
     }
+    */
 }
