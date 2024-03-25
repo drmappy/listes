@@ -15,9 +15,6 @@ public class Liste {
     }
 
     public int getElementAt(int index) {
-        return getNoeudAt(index).valeur;
-
-        /* Version alternative:
         Noeud courant = premier;
         for (int i = 0; i <= index; i++) {
             if (courant != null)
@@ -26,7 +23,6 @@ public class Liste {
                 return -1;
         }
         return courant.valeur;
-        */
     }
 
     private Noeud getNoeudAt(int index) {
