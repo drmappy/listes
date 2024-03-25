@@ -1,5 +1,5 @@
 public class Noeud {
-    public final int valeur;
+    public int valeur;
     public Noeud prochain;
 
     public Noeud(int valeur) {
@@ -7,6 +7,7 @@ public class Noeud {
         this.prochain = null;
     }
 
+    @Override
     public String toString() {
         return String.valueOf(valeur);
     }

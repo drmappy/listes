@@ -10,26 +10,8 @@ public class Liste {
     public String toString() {
         String str = "[";
         for (Noeud courant = premier; courant != null; courant = courant.prochain)
-            str += courant.valeur +  ", " ;
+            str += courant.valeur + ", ";
         return str + "]";
-    }
-
-    public int getElementAt(int index) {
-        Noeud courant = premier;
-        for (int i = 0; i <= index; i++) {
-            if (courant != null)
-                courant = courant.prochain;
-            else
-                return -1;
-        }
-        return courant.valeur;
-    }
-
-    private Noeud getNoeudAt(int index) {
-        for (Noeud courant = premier; courant != null; courant = courant.prochain)
-            if (index-- == 0)
-                return courant;
-        return null;
     }
 
     public int getNbElements() {
@@ -40,49 +22,52 @@ public class Liste {
         return nbElements == 0;
     }
 
-    public void ajouter(int element) {
-        //tableau[nbElements++] = element;
+    public int getElementAt(int index) {
+        //return tableau[index];
+        int indexCourant = 0;
+        for (Noeud courant = premier; courant != null; courant = courant.prochain) {
+            if (indexCourant == index)
+                return courant.valeur;
+            indexCourant++;
+        }
+        return -1;
+    }
+
+    public void ajouter(int valeur) {
+        //tableau[nbElements++] = valeur;
+
+        Noeud dernier = null;
+        for (Noeud courant = premier; courant != null; courant = courant.prochain)
+            dernier = courant;
 
         if (premier == null) {
-            premier = new Noeud(element);
-            nbElements++;
-            return;
+            premier = new Noeud(valeur);
         }
-
-        Noeud dernier = premier;
-        while (dernier.prochain != null)
-            dernier = dernier.prochain;
-
-        Noeud nouveau = new Noeud(element);
-        dernier.prochain = nouveau;
-
+        else {
+            dernier.prochain = new Noeud(valeur);
+        }
         nbElements++;
-    }
-
-    public boolean ajouter(int element, int index) {
-        if (index < 0 || index > nbElements)
-            //throw new IndexOutOfBoundsException();
-            return false;
-
-        Noeud nouveau = new Noeud(element);
-        Noeud precedent = getNoeudAt(index - 1);
-        nouveau.prochain = precedent.prochain;
-        precedent.prochain = nouveau;
-
-        nbElements++;
-        return true;
     }
 /*
-    public void ajouter(Liste autre) {
-        for (int i = 0 ; i < autre.getNbElements(); i++)
-            this.ajouter(autre.getElementAt(i));
+    public void ajouter(int valeur, int index) {
+        if (nbElements == tableau.length)
+            resize();
+        for (int i = nbElements; i > index; i--)
+            tableau[i] = tableau[i - 1];
+        tableau[index] = valeur;
+        nbElements++;
     }
 
     private void resize() {
         int[] nouveau = new int[RATIO_AGRANDISSEMENT * tableau.length];
-        for (int i = 0 ; i < tableau.length; i++)
+        for (int i = 0; i < nbElements; i++)
             nouveau[i] = tableau[i];
         tableau = nouveau;
+    }
+
+    public void ajouter(Liste autre) {
+        for (int i = 0; i < autre.getNbElements(); i++)
+            this.ajouter(autre.getElementAt(i));
     }
 
     public int trouver(int valeur) {
@@ -93,7 +78,7 @@ public class Liste {
     }
 
     public boolean trouverTout(Liste autre) {
-        for (int i = 0 ; i < autre.getNbElements(); i++)
+        for (int i = 0; i < autre.getNbElements(); i++)
             if (this.trouver(autre.getElementAt(i)) == -1)
                 return false;
         return true;
@@ -101,8 +86,8 @@ public class Liste {
 
     public boolean effacerAt(int index) {
         if (index < 0 || index > nbElements)
-            //throw new IndexOutOfBoundsException();
             return false;
+
         for (int i = index; i < nbElements; i++)
             tableau[i] = tableau[i + 1];
         nbElements--;
@@ -110,19 +95,20 @@ public class Liste {
     }
 
     public boolean effacerTout(Liste autre) {
-        boolean result = false;
+        boolean modifie = false;
         for (int i = 0; i < autre.getNbElements(); i++) {
-            int valeurAEffacer = autre.getElementAt(i);
-            int indexAEffacer = trouver(valeurAEffacer);
-            if (indexAEffacer != -1) {
-                this.effacerAt(indexAEffacer);
-                result = true;
+            int valeurCherchee = autre.getElementAt(i);
+            int indexTrouve = this.trouver(valeurCherchee);
+            if (indexTrouve != -1) {
+                effacerAt(indexTrouve);
+                modifie = true;
             }
         }
-        return result;
+        return modifie;
     }
 
     public void effacerTout() {
+        //effacerTout(this);
         tableau = new int[TAILLE_INITIALE];
         nbElements = 0;
     }
